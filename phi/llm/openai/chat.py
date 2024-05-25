@@ -284,6 +284,7 @@ class OpenAIChat(LLM):
         for m in messages:
             m.log()
 
+        # -*- invoke OpenAI model
         response_timer = Timer()
         response_timer.start()
         response: ChatCompletion = self.invoke(messages=messages)

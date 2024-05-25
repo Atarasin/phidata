@@ -10,7 +10,8 @@ PHI_CLI_DIR: Path = Path.home().resolve().joinpath(".phi")
 
 class PhiCliSettings(BaseSettings):
     app_name: str = "phi"
-    app_version: str = metadata.version("phidata")
+    # app_version: str = metadata.version("phidata")
+    app_version: str = "0.0.1"
 
     tmp_token_path: Path = PHI_CLI_DIR.joinpath("tmp_token")
     config_file_path: Path = PHI_CLI_DIR.joinpath("config.json")
