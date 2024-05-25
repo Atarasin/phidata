@@ -18,3 +18,13 @@
     ```python
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(name)s %(levelname)s %(filename)s:%(funcName)s:%(lineno)d %(message)s')
     ```
+3. 从LLM发送过来的原始数据中可能会包含一些控制字符，导致json解析失败，需要对原始数据进行处理。
+    ```python
+    # remove ```json and ``` from the response if present
+    if json_resp.startswith("```json\n") and json_resp.endswith("\n```"):
+        json_resp = json_resp.replace("```json\n", "").replace("\n```", "")
+
+    # remove control characters within the range of 0x00-0x1F
+    import re
+    json_resp = re.sub(r"[\x00-\x1F]+", "", json_resp)
+    ```

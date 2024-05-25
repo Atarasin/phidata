@@ -975,18 +975,31 @@ class Assistant(BaseModel):
         if self.output_model is not None and self.parse_output:
             logger.debug("Setting stream=False as output_model is set")
             json_resp = next(self._run(message=message, messages=messages, stream=False, **kwargs))
+
+            # remove ```json and ``` from the response if present
+            if json_resp.startswith("```json\n") and json_resp.endswith("\n```"):
+                json_resp = json_resp.replace("```json\n", "").replace("\n```", "")
+
+            # remove control characters within the range of 0x00-0x1F
+            import re
+            json_resp = re.sub(r"[\x00-\x1F]+", "", json_resp)
+
             try:
                 structured_output = None
                 try:
                     structured_output = self.output_model.model_validate_json(json_resp)
+                    logger.debug(f"successfully validated response, output type: {type(structured_output)}")
                 except ValidationError:
-                    # Check if response starts with ```json
-                    if json_resp.startswith("```json"):
-                        json_resp = json_resp.replace("```json\n", "").replace("\n```", "")
-                        try:
+                    # Check if response can be parsed as json directly
+                    if json_resp.startswith("{") and json_resp.endswith("}"):
+                        logger.debug(f"response is a json object: {json_resp}")
+                        try:  # Try to parse as json
                             structured_output = self.output_model.model_validate_json(json_resp)
+                            logger.debug(f"succeed to parse response, output type: {type(structured_output)}")
                         except ValidationError as exc:
-                            logger.warning(f"Failed to validate response: {exc}")
+                            logger.warning(f"Failed to parse response: {exc}")
+                    else:
+                        logger.warning(f"Failed to validate response, type: {type(json_resp)}")
 
                 # -*- Update assistant output to the structured output
                 if structured_output is not None:

@@ -29,7 +29,8 @@ def restart_assistant():
 
 def main() -> None:
     # Get model
-    model = st.sidebar.selectbox("Select Model", options=["openhermes", "llama2"])
+    # model = st.sidebar.selectbox("Select Model", options=["openhermes", "llama2"])
+    model = st.sidebar.selectbox("Select Model", options=["qwen-plus", "qwen-max"])
     # Set assistant_type in session state
     if "model" not in st.session_state:
         st.session_state["model"] = model

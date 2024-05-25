@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from phi.assistant import Assistant
 from phi.llm.ollama import Ollama
+from phi.llm.alibaba import QwenLLM
 from pydantic import BaseModel, Field
 
 
@@ -29,13 +30,14 @@ class World(BaseModel):
 
 
 def get_world_builder(
-    model: str = "openhermes",
+    model: str = "qwen-plus",
     temperature: float = 0.1,
     debug_mode: bool = False,
 ) -> Assistant:
     return Assistant(
         name="world_builder",
-        llm=Ollama(model=model, options={"temperature": temperature}),
+        # llm=Ollama(model=model, options={"temperature": temperature}),
+        llm=QwenLLM(model=model, options={"temperature": temperature}),
         description="You are an expert world builder designing an intricate and complex world.",
         instructions=[
             "You are tasked with creating a completely unique and intricate world.",
@@ -50,7 +52,7 @@ def get_world_builder(
 
 def get_world_explorer(
     world: World,
-    model: str = "openhermes",
+    model: str = "qwen-plus",
     temperature: float = 0.1,
     debug_mode: bool = False,
 ) -> Optional[Assistant]:
@@ -59,7 +61,8 @@ def get_world_explorer(
 
     return Assistant(
         name="world_explorer",
-        llm=Ollama(model=model, options={"temperature": temperature}),
+        # llm=Ollama(model=model, options={"temperature": temperature}),
+        llm=QwenLLM(model=model, options={"temperature": temperature}),
         description="You are a world explorer that provides detailed information about a world.",
         instructions=[
             "You are tasked with answering questions about the world defined below in <world> tags",
