@@ -291,7 +291,7 @@ class OpenAIChat(LLM):
         response_timer.stop()
         logger.debug(f"Time to generate response: {response_timer.elapsed:.4f}s")
         # logger.debug(f"OpenAI response type: {type(response)}")
-        # logger.debug(f"OpenAI response: {response}")
+        logger.debug(f"OpenAI response: {response}")
 
         # -*- Parse response
         response_message: ChatCompletionMessage = response.choices[0].message
