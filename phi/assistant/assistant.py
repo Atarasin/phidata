@@ -1437,7 +1437,7 @@ class Assistant(BaseModel):
         message: Optional[Union[List, Dict, str]] = None,
         *,
         messages: Optional[List[Union[Dict, Message]]] = None,
-        stream: bool = True,
+        stream: bool = False,
         markdown: bool = False,
         show_message: bool = True,
         **kwargs: Any,

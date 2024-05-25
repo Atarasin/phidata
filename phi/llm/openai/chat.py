@@ -279,6 +279,11 @@ class OpenAIChat(LLM):
         return Message(role="function", content="Function name is None."), None
 
     def response(self, messages: List[Message]) -> str:
+        """
+        called recursively to generate response if function calls are present in the messages,
+        returns the final response string if no function calls are present.
+        """
+
         logger.debug("---------- OpenAI Response Start ----------")
         # -*- Log messages for debugging
         for m in messages:
