@@ -1,4 +1,4 @@
-from phi.utils.enum import ExtendedEnum
+from phi.utils.extended_enum import ExtendedEnum
 
 
 class ApiGroup(str, ExtendedEnum):
