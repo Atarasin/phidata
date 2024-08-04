@@ -130,7 +130,7 @@ class Workflow(BaseModel):
         self,
         message: Optional[Union[List, Dict, str]] = None,
         *,
-        stream: bool = True,
+        stream: bool = False,
         markdown: bool = False,
         show_message: bool = True,
         **kwargs: Any,
